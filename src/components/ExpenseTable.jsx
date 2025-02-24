@@ -1,5 +1,5 @@
 import React from "react";
-
+import "../App.css";
 export default function ExpenseTable({ expenses }) {
   return (
     <table className="expense-table">

@@ -3,6 +3,8 @@
 body {
     font-family: "Nunito", sans-serif;
     margin: 0 32px;
+    background-color: #1d1c1f;
+    color: white;
 }
 
 main {
@@ -26,6 +28,8 @@ main {
 .expense-table {
     width: 100%;
     border-collapse: collapse;
+    border: 1px solid rgb(91, 89, 89);
+    ;
 }
 
 .expense-table select {
@@ -33,6 +37,8 @@ main {
     width: 100%;
     border: none;
     outline: none;
+    color: white;
+    background-color: #333234;
 }
 
 .amount-column div {
@@ -41,6 +47,10 @@ main {
 
 .amount-column span {
     margin-right: 6px;
+}
+
+svg {
+    fill: white;
 }
 
 .arrow {
@@ -66,15 +76,19 @@ main {
 
 .expense-table th,
 .expense-table td {
-    border: 1px solid #444;
     text-align: left;
     padding: 4px 8px;
+    border: 1px solid rgb(91, 89, 89);
+    background-color: #333234;
 }
 
 .select-category {
     height: 28px;
     padding: 1px 2px;
     font: inherit;
+    color: white;
+    border: 1px solid rgb(91, 89, 89);
+    background-color: #333234;
 }
 
 .input-container {
@@ -90,6 +104,9 @@ main {
 .input-container input {
     height: 28px;
     font-family: inherit;
+    color: white;
+    background-color: #333234;
+    border: 1px solid rgb(91, 89, 89);
 }
 
 .add-btn {
@@ -98,6 +115,9 @@ main {
     font-size: 18px;
     font-family: inherit;
     margin-top: 8px;
+    color: white;
+    background-color: #755893;
+    border: 1px solid rgb(91, 89, 89);
 }
 
 .context-menu {
