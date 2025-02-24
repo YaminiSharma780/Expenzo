@@ -1,6 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import "../App.css";
 export default function ExpenseTable({ expenses }) {
+  const [totalAmount, setTotalAmount] = useState(null);
+  let total = 0;
+  function updateTotalAmount(amount) {
+    total = total + Number(amount);
+    console.log(total);
+    setTimeout(() => {
+      setTotalAmount(total);
+    });
+  }
   return (
     <table className="expense-table">
       <thead>
@@ -42,17 +51,20 @@ export default function ExpenseTable({ expenses }) {
         </tr>
       </thead>
       <tbody>
-        {expenses.map(({ id, title, category, amount }) => (
-          <tr key={id}>
-            <td>{title}</td>
-            <td>{category}</td>
-            <td>₹{amount}</td>
-          </tr>
-        ))}
+        {expenses.map(({ id, title, category, amount }) => {
+          updateTotalAmount(amount);
+          return (
+            <tr key={id}>
+              <td>{title}</td>
+              <td>{category}</td>
+              <td>₹{amount}</td>
+            </tr>
+          );
+        })}
         <tr>
           <th>Total</th>
           <th></th>
-          <th>₹8100</th>
+          <th>₹{totalAmount}</th>
         </tr>
       </tbody>
     </table>
