@@ -33,6 +33,26 @@ export default function ExpenseForm({ setExpenses }) {
   //   setAmount("");
   // };
 
+  // // 3rd way to extract data from Form using single useState
+  const [currExpense, setCurrExpense] = useState({
+    title: "",
+    category: "",
+    amount: "",
+  });
+  const addExpense = (e) => {
+    e.preventDefault();
+    console.log(currExpense);
+    setExpenses((prevState) => [
+      ...prevState,
+      { ...currExpense, id: crypto.randomUUID() },
+    ]);
+    setCurrExpense({
+      id: crypto.randomUUID(),
+      title: "",
+      category: "",
+      amount: "",
+    });
+  };
   return (
     <form className="expense-form" onSubmit={addExpense}>
       <div className="input-container">
@@ -40,8 +60,13 @@ export default function ExpenseForm({ setExpenses }) {
         <input
           id="title"
           name="title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
+          value={currExpense.title}
+          onChange={(e) =>
+            setCurrExpense((prevState) => ({
+              ...prevState,
+              title: e.target.value,
+            }))
+          }
         />
       </div>
       <div className="input-container">
@@ -50,8 +75,13 @@ export default function ExpenseForm({ setExpenses }) {
           id="category"
           name="category"
           className="select-category"
-          value={category}
-          onChange={(e) => setCategory(e.target.value)}
+          value={currExpense.category}
+          onChange={(e) =>
+            setCurrExpense((prevState) => ({
+              ...prevState,
+              category: e.target.value,
+            }))
+          }
         >
           <option value="" hidden>
             Select Category
@@ -68,8 +98,13 @@ export default function ExpenseForm({ setExpenses }) {
         <input
           id="amount"
           name="amount"
-          value={amount}
-          onChange={(e) => setAmount(e.target.value)}
+          value={currExpense.amount}
+          onChange={(e) =>
+            setCurrExpense((prevState) => ({
+              ...prevState,
+              amount: e.target.value,
+            }))
+          }
         />
       </div>
       <button className="add-btn">Add</button>
