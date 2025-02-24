@@ -1,31 +1,58 @@
-import React from "react";
+import React, { useState } from "react";
 
 export default function ExpenseForm({ setExpenses }) {
-  const addExpense = (e) => {
-    e.preventDefault();
-    const newExpense = { ...getFormData(e.target), id: crypto.randomUUID() };
-    setExpenses((prevState) => [...prevState, newExpense]);
-    e.target.reset();
-  };
+  // // 1st way to extract data from Form without using useState
+  // const addExpense = (e) => {
+  //   e.preventDefault();
+  //   const newExpense = { ...getFormData(e.target), id: crypto.randomUUID() };
+  //   setExpenses((prevState) => [...prevState, newExpense]);
+  //   e.target.reset();
+  // };
+  // const getFormData = (form) => {
+  //   const formData = new FormData(form);
+  //   const data = {};
+  //   for (const [key, value] of formData.entries()) {
+  //     data[key] = value;
+  //   }
+  //   return data;
+  // };
 
-  const getFormData = (form) => {
-    const formData = new FormData(form);
-    const data = {};
-    for (const [key, value] of formData.entries()) {
-      data[key] = value;
-    }
-    return data;
-  };
+  // // 2nd way to extract data from Form using multiple useStates
+  // const [title, setTitle] = useState("");
+  // const [category, setCategory] = useState("");
+  // const [amount, setAmount] = useState("");
+  // const addExpense = (e) => {
+  //   e.preventDefault();
+  //   const expense = { title, category, amount, id: crypto.randomUUID() };
+  //   setExpenses((prevState) => [...prevState, expense]);
+  //   // won't work for clearing inputs
+  //   // e.target.reset();
+  //   // works fine for clearing inputs
+  //   setTitle("");
+  //   setCategory("");
+  //   setAmount("");
+  // };
 
   return (
     <form className="expense-form" onSubmit={addExpense}>
       <div className="input-container">
         <label htmlFor="title">Title</label>
-        <input id="title" name="title" />
+        <input
+          id="title"
+          name="title"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+        />
       </div>
       <div className="input-container">
         <label htmlFor="category">Category</label>
-        <select id="category" name="category" className="select-category">
+        <select
+          id="category"
+          name="category"
+          className="select-category"
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+        >
           <option value="" hidden>
             Select Category
           </option>
@@ -38,7 +65,12 @@ export default function ExpenseForm({ setExpenses }) {
       </div>
       <div className="input-container">
         <label htmlFor="amount">Amount</label>
-        <input id="amount" name="amount" />
+        <input
+          id="amount"
+          name="amount"
+          value={amount}
+          onChange={(e) => setAmount(e.target.value)}
+        />
       </div>
       <button className="add-btn">Add</button>
     </form>

@@ -5,7 +5,6 @@ export default function ExpenseTable({ expenses }) {
   let total = 0;
   function updateTotalAmount(amount) {
     total = total + Number(amount);
-    console.log(total);
     setTimeout(() => {
       setTotalAmount(total);
     });
