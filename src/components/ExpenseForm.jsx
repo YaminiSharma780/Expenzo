@@ -1,10 +1,13 @@
 import React, { useState } from "react";
+import Input from "./Input";
+import Select from "./Select";
 
 export default function ExpenseForm({ setExpenses }) {
   const [currExpense, setCurrExpense] = useState({
     title: "",
     category: "",
     amount: "",
+    email: '',
   });
   const [errors, setErrors] = useState({});
 
@@ -17,17 +20,42 @@ export default function ExpenseForm({ setExpenses }) {
     }));
   };
 
+  const validationConfig = {
+    title: [
+      { required: true, message: "Please enter title" },
+      { minLength: 5, message: "Title should be at least 5 characters long" },
+    ],
+    category: [{ required: true, message: "Please select a category" }],
+    amount: [{ required: true, message: "Please enter an amount" }],
+    email: [
+      { required: true, message: "Please enter an email" },
+      {
+        pattern: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
+        message: "Please enter a valid email",
+      },
+    ],
+  };
+
   const validateForm = (formData) => {
     const errorsData = {};
-    if (!formData.title) {
-      errorsData.title = "Title is required";
-    }
-    if (!formData.category) {
-      errorsData.category = "Category is required";
-    }
-    if (!formData.amount) {
-      errorsData.amount = "Amount is required";
-    }
+
+    Object.entries(formData).forEach(([key, value]) => {
+      validationConfig[key].some((rule) => {
+        console.log(rule);
+        if (rule.required && !value) {
+          errorsData[key] = rule.message;
+          return true;
+        }
+        if (rule.minLength && value.length < 5) {
+          errorsData[key] = rule.message;
+          return true;
+        }
+        if (rule.pattern && !rule.pattern.test(value)) {
+          errorsData[key] = rule.message;
+          return true;
+        }
+      });
+    });
     setErrors(errorsData);
     return errorsData;
   };
@@ -52,46 +80,40 @@ export default function ExpenseForm({ setExpenses }) {
 
   return (
     <form className="expense-form" onSubmit={addExpense}>
-      <div className="input-container">
-        <label htmlFor="title">Title</label>
-        <input
-          id="title"
-          name="title"
-          value={currExpense.title}
-          onChange={handleInputChange}
-        />
-        <p className="error">{errors.title}</p>
-      </div>
-      <div className="input-container">
-        <label htmlFor="category">Category</label>
-        <select
-          id="category"
-          name="category"
-          className="select-category"
-          value={currExpense.category}
-          onChange={handleInputChange}
-        >
-          <option value="" disabled hidden>
-            Select Category
-          </option>
-          <option value="Grocery">Grocery</option>
-          <option value="Clothes">Clothes</option>
-          <option value="Bills">Bills</option>
-          <option value="Education">Education</option>
-          <option value="Medicine">Medicine</option>
-        </select>
-        <p className="error">{errors.category}</p>
-      </div>
-      <div className="input-container">
-        <label htmlFor="amount">Amount</label>
-        <input
-          id="amount"
-          name="amount"
-          value={currExpense.amount}
-          onChange={handleInputChange}
-        />
-        <p className="error">{errors.amount}</p>
-      </div>
+      <Input
+        label={"Title"}
+        id={"title"}
+        name={"title"}
+        value={currExpense.title}
+        onChange={handleInputChange}
+        error={errors.title}
+      />
+      <Select
+        label={"Category"}
+        id={"category"}
+        name={"category"}
+        value={currExpense.category}
+        onChange={handleInputChange}
+        error={errors.category}
+        defaultOption={"Select Category"}
+        options={["Grocery", "Clothes", "Bills", "Education", "Medicine"]}
+      />
+      <Input
+        label={"Amount"}
+        id={"amount"}
+        name={"amount"}
+        value={currExpense.amount}
+        onChange={handleInputChange}
+        error={errors.amount}
+      />
+      <Input
+        label={"Email"}
+        id={"email"}
+        name={"email"}
+        value={currExpense.email}
+        onChange={handleInputChange}
+        error={errors.email}
+      />
       <button className="add-btn">Add</button>
     </form>
   );
