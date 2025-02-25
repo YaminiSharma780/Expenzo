@@ -9,19 +9,33 @@ export default function ExpenseForm({ setExpenses }) {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    // const { id, value } = e.target;
     setCurrExpense((prevState) => ({
       ...prevState,
       [name]: value,
-      // [id]: value,
     }));
+  };
+
+  const [errors, setErrors] = useState({});
+  const validateForm = (formData) => {
+    const errorsData = {};
+    if (!formData.title) {
+      errorsData.title = "Title is required";
+    }
+    if (!formData.category) {
+      errorsData.category = "Category is required";
+    }
+    if (!formData.amount) {
+      errorsData.amount = "Amount is required";
+    }
+    setErrors(errorsData);
+    return errorsData;
   };
 
   const addExpense = (e) => {
     e.preventDefault();
     console.log(currExpense);
-    if (!currExpense.title || !currExpense.category || !currExpense.amount) {
-      console.log("empty tuple");
+    const validate = validateForm(currExpense);
+    if (Object.keys(validate).length) {
       return;
     }
     setExpenses((prevState) => [
@@ -40,10 +54,12 @@ export default function ExpenseForm({ setExpenses }) {
       <div className="input-container">
         <label htmlFor="title">Title</label>
         <input
+          className={errors.category ? "error" : ""}
           id="title"
           name="title"
           value={currExpense.title}
           onChange={handleInputChange}
+          placeholder={errors.title}
         />
       </div>
       <div className="input-container">
@@ -55,8 +71,12 @@ export default function ExpenseForm({ setExpenses }) {
           value={currExpense.category}
           onChange={handleInputChange}
         >
-          <option value="" hidden>
-            Select Category
+          <option value="" disabled hidden>
+            {errors.category ? (
+              <span style={{ color: "red" }}>{errors.category}</span>
+            ) : (
+              "Select Category"
+            )}
           </option>
           <option value="Grocery">Grocery</option>
           <option value="Clothes">Clothes</option>
@@ -72,6 +92,7 @@ export default function ExpenseForm({ setExpenses }) {
           name="amount"
           value={currExpense.amount}
           onChange={handleInputChange}
+          placeholder={errors.amount}
         />
       </div>
       <button className="add-btn">Add</button>
