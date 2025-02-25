@@ -9,15 +9,21 @@ export default function ExpenseForm({ setExpenses }) {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+    // const { id, value } = e.target;
     setCurrExpense((prevState) => ({
       ...prevState,
       [name]: value,
+      // [id]: value,
     }));
   };
 
   const addExpense = (e) => {
     e.preventDefault();
     console.log(currExpense);
+    if (!currExpense.title || !currExpense.category || !currExpense.amount) {
+      console.log("empty tuple");
+      return;
+    }
     setExpenses((prevState) => [
       ...prevState,
       { ...currExpense, id: crypto.randomUUID() },
