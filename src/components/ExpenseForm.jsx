@@ -7,7 +7,6 @@ export default function ExpenseForm({ setExpenses }) {
     title: "",
     category: "",
     amount: "",
-    email: '',
   });
   const [errors, setErrors] = useState({});
 
@@ -27,13 +26,6 @@ export default function ExpenseForm({ setExpenses }) {
     ],
     category: [{ required: true, message: "Please select a category" }],
     amount: [{ required: true, message: "Please enter an amount" }],
-    email: [
-      { required: true, message: "Please enter an email" },
-      {
-        pattern: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
-        message: "Please enter a valid email",
-      },
-    ],
   };
 
   const validateForm = (formData) => {
@@ -105,14 +97,6 @@ export default function ExpenseForm({ setExpenses }) {
         value={currExpense.amount}
         onChange={handleInputChange}
         error={errors.amount}
-      />
-      <Input
-        label={"Email"}
-        id={"email"}
-        name={"email"}
-        value={currExpense.email}
-        onChange={handleInputChange}
-        error={errors.email}
       />
       <button className="add-btn">Add</button>
     </form>
