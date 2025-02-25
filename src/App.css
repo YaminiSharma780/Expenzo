@@ -94,7 +94,8 @@ svg {
 .input-container {
     display: flex;
     flex-direction: column;
-    margin-bottom: 12px;
+    margin-bottom: 30px;
+    position: relative;
 }
 
 .input-container label {
@@ -140,9 +141,12 @@ svg {
     background-color: #ddd;
 }
 
-input::placeholder {
-    color: rgb(175, 5, 5);
-    opacity: 1;
+.error {
+    color: #ed4141;
+    margin: 0;
+    font-size: 12px;
+    top: 100%;
+    position: absolute;
 }
 
 @media (max-width: 900px) {

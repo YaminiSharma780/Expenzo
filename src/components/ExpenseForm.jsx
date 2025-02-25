@@ -6,8 +6,10 @@ export default function ExpenseForm({ setExpenses }) {
     category: "",
     amount: "",
   });
+  const [errors, setErrors] = useState({});
 
   const handleInputChange = (e) => {
+    setErrors({});
     const { name, value } = e.target;
     setCurrExpense((prevState) => ({
       ...prevState,
@@ -15,7 +17,6 @@ export default function ExpenseForm({ setExpenses }) {
     }));
   };
 
-  const [errors, setErrors] = useState({});
   const validateForm = (formData) => {
     const errorsData = {};
     if (!formData.title) {
@@ -54,13 +55,12 @@ export default function ExpenseForm({ setExpenses }) {
       <div className="input-container">
         <label htmlFor="title">Title</label>
         <input
-          className={errors.category ? "error" : ""}
           id="title"
           name="title"
           value={currExpense.title}
           onChange={handleInputChange}
-          placeholder={errors.title}
         />
+        <p className="error">{errors.title}</p>
       </div>
       <div className="input-container">
         <label htmlFor="category">Category</label>
@@ -72,11 +72,7 @@ export default function ExpenseForm({ setExpenses }) {
           onChange={handleInputChange}
         >
           <option value="" disabled hidden>
-            {errors.category ? (
-              <span style={{ color: "red" }}>{errors.category}</span>
-            ) : (
-              "Select Category"
-            )}
+            Select Category
           </option>
           <option value="Grocery">Grocery</option>
           <option value="Clothes">Clothes</option>
@@ -84,6 +80,7 @@ export default function ExpenseForm({ setExpenses }) {
           <option value="Education">Education</option>
           <option value="Medicine">Medicine</option>
         </select>
+        <p className="error">{errors.category}</p>
       </div>
       <div className="input-container">
         <label htmlFor="amount">Amount</label>
@@ -92,8 +89,8 @@ export default function ExpenseForm({ setExpenses }) {
           name="amount"
           value={currExpense.amount}
           onChange={handleInputChange}
-          placeholder={errors.amount}
         />
+        <p className="error">{errors.amount}</p>
       </div>
       <button className="add-btn">Add</button>
     </form>
