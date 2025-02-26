@@ -25,15 +25,20 @@ export default function ExpenseForm({ setExpenses }) {
       { minLength: 5, message: "Title should be at least 5 characters long" },
     ],
     category: [{ required: true, message: "Please select a category" }],
-    amount: [{ required: true, message: "Please enter an amount" }],
+    amount: [
+      { required: true, message: "Please enter an amount" },
+      { pattern: /^\d+$/, message: "Please enter correct amount" },
+    ],
   };
 
   const validateForm = (formData) => {
     const errorsData = {};
 
     Object.entries(formData).forEach(([key, value]) => {
+      console.log(key, value);
+      console.log(typeof key, typeof value);
       validationConfig[key].some((rule) => {
-        console.log(rule);
+        // console.log(rule);
         if (rule.required && !value) {
           errorsData[key] = rule.message;
           return true;
@@ -54,7 +59,7 @@ export default function ExpenseForm({ setExpenses }) {
 
   const addExpense = (e) => {
     e.preventDefault();
-    console.log(currExpense);
+    // console.log(currExpense);
     const validate = validateForm(currExpense);
     if (Object.keys(validate).length) {
       return;
