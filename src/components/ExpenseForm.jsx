@@ -2,17 +2,19 @@ import React, { useState } from "react";
 import Input from "./Input";
 import Select from "./Select";
 
-export default function ExpenseForm({ setExpenses }) {
-  const [currExpense, setCurrExpense] = useState({
-    title: "",
-    category: "",
-    amount: "",
-  });
+export default function ExpenseForm({
+  setExpenses,
+  currExpense,
+  setCurrExpense,
+}) {
   const [errors, setErrors] = useState({});
 
   const handleInputChange = (e) => {
     setErrors({});
-    const { name, value } = e.target;
+    let { name, value } = e.target;
+    if (name == "amount") {
+      value = Number(value);
+    }
     setCurrExpense((prevState) => ({
       ...prevState,
       [name]: value,
