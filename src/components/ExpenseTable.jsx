@@ -1,21 +1,28 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../App.css";
 import ContextMenu from "./ContextMenu";
-export default function ExpenseTable({ expenses }) {
-  const [totalAmount, setTotalAmount] = useState(null);
-  let total = 0;
-  function updateTotalAmount(amount) {
-    total = total + Number(amount);
-    setTimeout(() => {
-      setTotalAmount(total);
+export default function ExpenseTable({ expenses, setExpenses }) {
+  const [totalAmount, setTotalAmount] = useState(0);
+
+  useEffect(() => {
+    let total = 0;
+    expenses.forEach((expense) => {
+      total += expense.amount;
     });
-  }
+    setTotalAmount(total);
+  }, [expenses]);
 
   const [pos, setPos] = useState({});
+  const [rowID, setRowID] = useState("");
 
   return (
     <>
-      <ContextMenu pos={pos} />
+      <ContextMenu
+        pos={pos}
+        setPos={setPos}
+        setExpenses={setExpenses}
+        rowID={rowID}
+      />
       <table onClick={(e) => setPos({})} className="expense-table">
         <thead>
           <tr>
@@ -57,12 +64,14 @@ export default function ExpenseTable({ expenses }) {
         </thead>
         <tbody>
           {expenses.map(({ id, title, category, amount }) => {
-            updateTotalAmount(amount);
             return (
               <tr
                 key={id}
                 onContextMenu={(e) => {
                   e.preventDefault();
+                  // console.log(e.target);
+                  setRowID(id);
+                  console.log(rowID);
                   console.log(e.clientX, e.clientY);
                   setPos({ left: e.clientX + 5, top: e.clientY + 5 });
                 }}
