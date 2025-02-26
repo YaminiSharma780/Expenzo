@@ -122,23 +122,26 @@ svg {
 }
 
 .context-menu {
-    background-color: white;
+    background-color: #1d1c1f;
     border: 1px solid;
     position: absolute;
-    display: none;
     border-radius: 4px;
     overflow: hidden;
-    box-shadow: 0 0 12px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgb(91, 89, 89);
+    /* display: none; */
+    top: 0;
+    left: 0;
 }
 
 .context-menu div {
     padding: 2px 8px;
     cursor: pointer;
     font-weight: 600;
+    border: 1px solid rgb(91, 89, 89);
 }
 
 .context-menu div:hover {
-    background-color: #ddd;
+    background-color: #755893;
 }
 
 .error {

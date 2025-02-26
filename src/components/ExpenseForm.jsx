@@ -35,8 +35,8 @@ export default function ExpenseForm({ setExpenses }) {
     const errorsData = {};
 
     Object.entries(formData).forEach(([key, value]) => {
-      console.log(key, value);
-      console.log(typeof key, typeof value);
+      // console.log(key, value);
+      // console.log(typeof key, typeof value);
       validationConfig[key].some((rule) => {
         // console.log(rule);
         if (rule.required && !value) {
