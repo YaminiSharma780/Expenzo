@@ -48,6 +48,14 @@ main {
     margin-right: 6px;
 }
 
+.title-column div {
+    display: flex;
+}
+
+.title-column span {
+    margin-right: 6px;
+}
+
 svg {
     fill: white;
 }
