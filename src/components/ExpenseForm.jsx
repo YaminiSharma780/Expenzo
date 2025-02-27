@@ -6,6 +6,8 @@ export default function ExpenseForm({
   setExpenses,
   currExpense,
   setCurrExpense,
+  editingRowID,
+  setEditingRowID,
 }) {
   const [errors, setErrors] = useState({});
 
@@ -24,7 +26,7 @@ export default function ExpenseForm({
   const validationConfig = {
     title: [
       { required: true, message: "Please enter title" },
-      { minLength: 5, message: "Title should be at least 5 characters long" },
+      { minLength: 3, message: "Title should be at least 3 characters long" },
     ],
     category: [{ required: true, message: "Please select a category" }],
     amount: [
@@ -45,7 +47,7 @@ export default function ExpenseForm({
           errorsData[key] = rule.message;
           return true;
         }
-        if (rule.minLength && value.length < 5) {
+        if (rule.minLength && value.length < 3) {
           errorsData[key] = rule.message;
           return true;
         }
@@ -66,10 +68,33 @@ export default function ExpenseForm({
     if (Object.keys(validate).length) {
       return;
     }
+
+    if (editingRowID) {
+      setExpenses((prevState) =>
+        prevState.map((exp) => {
+          if (exp.id === editingRowID) {
+            return { ...currExpense, id: editingRowID };
+          }
+          return exp;
+        })
+      );
+      setEditingRowID("");
+      setCurrExpense({
+        title: "",
+        category: "",
+        amount: "",
+      });
+      return;
+    }
+
     setExpenses((prevState) => [
       ...prevState,
-      { ...currExpense, id: crypto.randomUUID() },
+      {
+        ...currExpense,
+        id: crypto.randomUUID(),
+      },
     ]);
+
     setCurrExpense({
       title: "",
       category: "",
@@ -105,7 +130,7 @@ export default function ExpenseForm({
         onChange={handleInputChange}
         error={errors.amount}
       />
-      <button className="add-btn">Add</button>
+      <button className="add-btn">{editingRowID == "" ? "Add" : "Save"}</button>
     </form>
   );
 }

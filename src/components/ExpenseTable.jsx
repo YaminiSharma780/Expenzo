@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "../App.css";
 import ContextMenu from "./ContextMenu";
-export default function ExpenseTable({ expenses, setExpenses, setCurrExpense}) {
+export default function ExpenseTable({ expenses, setExpenses, setCurrExpense, setEditingRowID}) {
   const [totalAmount, setTotalAmount] = useState(0);
 
   useEffect(() => {
@@ -24,6 +24,7 @@ export default function ExpenseTable({ expenses, setExpenses, setCurrExpense}) {
         setExpenses={setExpenses}
         rowID={rowID}
         setCurrExpense={setCurrExpense}
+        setEditingRowID={setEditingRowID}
       />
       <table onClick={(e) => setPos({})} className="expense-table">
         <thead>

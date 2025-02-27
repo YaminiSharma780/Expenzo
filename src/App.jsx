@@ -5,12 +5,16 @@ import ExpenseTable from "./components/ExpenseTable";
 import expenseData from "./data/expenseData";
 
 function App() {
-  const [expenses, setExpenses] = useState(expenseData);
   const [currExpense, setCurrExpense] = useState({
     title: "",
     category: "",
     amount: "",
   });
+
+  const [expenses, setExpenses] = useState(expenseData);
+
+  const [editingRowID, setEditingRowID] = useState("");
+
   return (
     <main>
       <h1>Track Your Expense</h1>
@@ -19,11 +23,14 @@ function App() {
           setExpenses={setExpenses}
           currExpense={currExpense}
           setCurrExpense={setCurrExpense}
+          editingRowID={editingRowID}
+          setEditingRowID={setEditingRowID}
         />
         <ExpenseTable
           expenses={expenses}
           setExpenses={setExpenses}
           setCurrExpense={setCurrExpense}
+          setEditingRowID={setEditingRowID}
         />
       </div>
     </main>
