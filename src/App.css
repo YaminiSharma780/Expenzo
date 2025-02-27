@@ -29,7 +29,6 @@ main {
     width: 100%;
     border-collapse: collapse;
     border: 1px solid rgb(91, 89, 89);
-    ;
 }
 
 .expense-table select {
@@ -56,6 +55,9 @@ svg {
 .arrow {
     transition: transform 0.2s ease-in-out;
     cursor: pointer;
+    overflow: hidden;
+    width: 31px;
+    height: 20px;
 }
 
 .up-arrow {
@@ -71,6 +73,14 @@ svg {
 }
 
 .down-arrow:active {
+    transform: translateY(2px);
+}
+
+.reset-arrow {
+    margin-left: 6px;
+}
+
+.reset-arrow:active {
     transform: translateY(2px);
 }
 
@@ -119,6 +129,7 @@ svg {
     color: white;
     background-color: #755893;
     border: 1px solid rgb(91, 89, 89);
+    cursor: pointer;
 }
 
 .context-menu {
@@ -150,6 +161,10 @@ svg {
     font-size: 12px;
     top: 100%;
     position: absolute;
+}
+
+.reset-sort {
+    cursor: pointer;
 }
 
 @media (max-width: 900px) {

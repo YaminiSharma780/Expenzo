@@ -14,13 +14,6 @@ export default function ExpenseForm({
   const handleInputChange = (e) => {
     setErrors({});
     let { name, value } = e.target;
-    if (name == "amount") {
-      if (!isNaN(value)) {
-        value = Number(value);
-      } else {
-        value = 0;
-      }
-    }
     setCurrExpense((prevState) => ({
       ...prevState,
       [name]: value,

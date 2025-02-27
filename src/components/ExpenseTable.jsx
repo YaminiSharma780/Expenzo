@@ -1,24 +1,22 @@
 import React, { useEffect, useState } from "react";
 import "../App.css";
 import ContextMenu from "./ContextMenu";
+import useFilter from "../hooks/useFilter";
 export default function ExpenseTable({
   expenses,
   setExpenses,
   setCurrExpense,
   setEditingRowID,
 }) {
-  const [totalAmount, setTotalAmount] = useState(0);
-
-  useEffect(() => {
-    let total = 0;
-    expenses.forEach((expense) => {
-      total += expense.amount;
-    });
-    setTotalAmount(total);
-  }, [expenses]);
+  const [filteredData, setQuery] = useFilter(expenses, (data) => data.category);
+  const total = filteredData.reduce(
+    (accumulator, current) => accumulator + parseInt(current.amount),
+    0
+  );
 
   const [pos, setPos] = useState({});
   const [rowID, setRowID] = useState("");
+  const [sortCallBack, setSortCallBack] = useState(() => () => {});
 
   return (
     <>
@@ -32,7 +30,6 @@ export default function ExpenseTable({
         setEditingRowID={setEditingRowID}
       />
       <table
-        // now even sorting is making the code to re-render which can be stopped by condition
         onClick={() => {
           if (pos.left) {
             setPos({});
@@ -44,7 +41,7 @@ export default function ExpenseTable({
           <tr>
             <th>Title</th>
             <th>
-              <select>
+              <select onChange={(e) => setQuery(e.target.value.toLowerCase())}>
                 <option value="">All</option>
                 <option value="Grocery">Grocery</option>
                 <option value="Clothes">Clothes</option>
@@ -58,23 +55,12 @@ export default function ExpenseTable({
                 <span>Amount</span>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  width="10"
+                  width="20"
+                  height="20"
                   viewBox="0 0 384 512"
                   className="arrow up-arrow"
-                  // code is working because of onClick event of setPos() so it's re-rendering
-                  // resultant array is same array (only sorted), so any change won't be recognized
-                  // onClick={() => {
-                  //   setExpenses((prevState) =>
-                  //     prevState.sort((a, b) => a.amount - b.amount)
-                  //   );
-                  // }}
-
-                  // let's make new array by spreading prevState, now new array will be returned
-                  // this code will work even if we don't have event listener at parent
                   onClick={() => {
-                    setExpenses((prevState) => [
-                      ...prevState.sort((a, b) => a.amount - b.amount),
-                    ]);
+                    setSortCallBack(() => (a, b) => a.amount - b.amount);
                   }}
                 >
                   <title>Ascending</title>
@@ -82,56 +68,57 @@ export default function ExpenseTable({
                 </svg>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  width="10"
+                  width="20"
+                  height="20"
                   viewBox="0 0 384 512"
                   className="arrow down-arrow"
-                  // code is working because of onClick event of setPos() so it's re-rendering
-                  // resultant array is same array (only sorted), so any change won't be recognized
-                  // onClick={() => {
-                  //   setExpenses((prevState) =>
-                  //     prevState.sort((a, b) => b.amount - a.amount)
-                  //   );
-                  // }}
-
-                  // let's make new array by spreading prevState, now new array will be returned
-                  // this code will work even if we don't have event listener at parent
                   onClick={() => {
-                    setExpenses((prevState) => [
-                      ...prevState.sort((a, b) => b.amount - a.amount),
-                    ]);
+                    setSortCallBack(() => (a, b) => b.amount - a.amount);
                   }}
                 >
                   <title>Descending</title>
                   <path d="M169.4 470.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 370.8 224 64c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 306.7L54.6 265.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z" />
+                </svg>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 384 512"
+                  className="arrow reset-arrow"
+                  onClick={() => {
+                    setSortCallBack(() => () => {});
+                  }}
+                >
+                  <title>Reset</title>
+                  <path d="M272 416c17.7 0 32-14.3 32-32s-14.3-32-32-32l-112 0c-17.7 0-32-14.3-32-32l0-128 32 0c12.9 0 24.6-7.8 29.6-19.8s2.2-25.7-6.9-34.9l-64-64c-12.5-12.5-32.8-12.5-45.3 0l-64 64c-9.2 9.2-11.9 22.9-6.9 34.9s16.6 19.8 29.6 19.8l32 0 0 128c0 53 43 96 96 96l112 0zM304 96c-17.7 0-32 14.3-32 32s14.3 32 32 32l112 0c17.7 0 32 14.3 32 32l0 128-32 0c-12.9 0-24.6 7.8-29.6 19.8s-2.2 25.7 6.9 34.9l64 64c12.5 12.5 32.8 12.5 45.3 0l64-64c9.2-9.2 11.9-22.9 6.9-34.9s-16.6-19.8-29.6-19.8l-32 0 0-128c0-53-43-96-96-96L304 96z" />
                 </svg>
               </div>
             </th>
           </tr>
         </thead>
         <tbody>
-          {expenses.map(({ id, title, category, amount }) => {
-            return (
-              <tr
-                key={id}
-                onContextMenu={(e) => {
-                  e.preventDefault();
-                  // console.log(e.target);
-                  setRowID(id);
-                  console.log(rowID);
-                  console.log(e.clientX, e.clientY);
-                  setPos({ left: e.clientX + 5, top: e.clientY + 5 });
-                }}
-              >
-                <td>{title}</td>
-                <td>{category}</td>
-                <td>₹{amount}</td>
-              </tr>
-            );
-          })}
+          {filteredData
+            .sort(sortCallBack)
+            .map(({ id, title, category, amount }) => {
+              return (
+                <tr
+                  key={id}
+                  onContextMenu={(e) => {
+                    e.preventDefault();
+                    setRowID(id);
+                    setPos({ left: e.clientX + 5, top: e.clientY + 5 });
+                  }}
+                >
+                  <td>{title}</td>
+                  <td>{category}</td>
+                  <td>₹{amount}</td>
+                </tr>
+              );
+            })}
           <tr>
             <th>Total</th>
-            <th></th>
-            <th>₹{totalAmount}</th>
+            <th>Items</th>
+            <th>₹{total}</th>
           </tr>
         </tbody>
       </table>
