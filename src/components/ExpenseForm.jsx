@@ -15,7 +15,11 @@ export default function ExpenseForm({
     setErrors({});
     let { name, value } = e.target;
     if (name == "amount") {
-      value = Number(value);
+      if (!isNaN(value)) {
+        value = Number(value);
+      } else {
+        value = 0;
+      }
     }
     setCurrExpense((prevState) => ({
       ...prevState,
@@ -39,10 +43,7 @@ export default function ExpenseForm({
     const errorsData = {};
 
     Object.entries(formData).forEach(([key, value]) => {
-      // console.log(key, value);
-      // console.log(typeof key, typeof value);
       validationConfig[key].some((rule) => {
-        // console.log(rule);
         if (rule.required && !value) {
           errorsData[key] = rule.message;
           return true;
@@ -63,7 +64,6 @@ export default function ExpenseForm({
 
   const addExpense = (e) => {
     e.preventDefault();
-    // console.log(currExpense);
     const validate = validateForm(currExpense);
     if (Object.keys(validate).length) {
       return;

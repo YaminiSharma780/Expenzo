@@ -15,12 +15,6 @@ export default function ContextMenu({
       <div
         onClick={(e) => {
           console.log("Editing");
-          // expenses.filter((expense) => {
-          //   if(expense.id == rowID){
-          //     console.log(expense);
-          //     setCurrExpense(expense);
-          //   }
-          // });
           const { title, category, amount } = expenses.find(
             (expense) => expense.id === rowID
           );
