@@ -6,32 +6,19 @@ import expenseData from "./data/expenseData";
 import useLocalStorage from "./hooks/useLocalStorage";
 
 function App() {
-  const [currExpense, setCurrExpense] = useState({
+  const [currExpense, setCurrExpense] = useLocalStorage("currExpense", {
     title: "",
     category: "",
     amount: "",
   });
 
-  const [expenses, setExpenses] = useState(expenseData);
+  const [expenses, setExpenses] = useLocalStorage("expenses", expenseData);
 
-  const [editingRowID, setEditingRowID] = useState("");
-
-  const [localStorageData, setLocalStorageData] = useLocalStorage(
-    "myArr",
-    [1, 2, 3]
-  );
+  const [editingRowID, setEditingRowID] = useLocalStorage("editingRowID", "");
 
   return (
     <main>
-      <h1
-        onClick={() => {
-          // setLocalStorageData([4, 5, 6]);
-          setLocalStorageData((prevState) => [...prevState, 4, 5, 6]);
-        }}
-      >
-        Track Your Expense
-      </h1>
-      <h2>{localStorageData.join(", ")}</h2>
+      <h1>Track Your Expense</h1>
       <div className="expense-tracker">
         <ExpenseForm
           setExpenses={setExpenses}
