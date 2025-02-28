@@ -4,3 +4,10 @@ Expenzo is a simple and intuitive expense tracking app that helps you manage and
 
 1. To create new Vite app : npm create vite@latest
 2. To run the Vite app : npm run dev
+3. To build the Vite app : npm run build
+4. To run the build of Vite app : npm run preview
+
+Tech Stack: Frontend: React, JSX, CSS, State Management: React hooks (useState, useEffect, useContext, customHook) 
+Deployment: Deployed on a platform Netlify
+
+App Link : https://expenzo-tracker.netlify.app/
