@@ -1,9 +1,9 @@
-import { useState } from "react";
 import "./App.css";
 import ExpenseForm from "./components/ExpenseForm";
-import ExpenseTable from "./components/ExpenseTable";
 import expenseData from "./data/expenseData";
 import useLocalStorage from "./hooks/useLocalStorage";
+import ExpenseTableBigScreen from "./components/ExpenseTableBigScreen";
+import ExpenseTableSmallScreen from "./components/ExpenseTableSmallScreen";
 
 function App() {
   const [currExpense, setCurrExpense] = useLocalStorage("currExpense", {
@@ -27,12 +27,22 @@ function App() {
           editingRowID={editingRowID}
           setEditingRowID={setEditingRowID}
         />
-        <ExpenseTable
-          expenses={expenses}
-          setExpenses={setExpenses}
-          setCurrExpense={setCurrExpense}
-          setEditingRowID={setEditingRowID}
-        />
+        <span className="small-screen-table">
+          <ExpenseTableSmallScreen
+            expenses={expenses}
+            setExpenses={setExpenses}
+            setCurrExpense={setCurrExpense}
+            setEditingRowID={setEditingRowID}
+          />
+        </span>
+        <span className="big-screen-table">
+          <ExpenseTableBigScreen
+            expenses={expenses}
+            setExpenses={setExpenses}
+            setCurrExpense={setCurrExpense}
+            setEditingRowID={setEditingRowID}
+          />
+        </span>
       </div>
     </main>
   );

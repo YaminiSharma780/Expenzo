@@ -16,6 +16,14 @@ main {
     box-sizing: border-box;
 }
 
+.small-screen-table {
+    display: none;
+}
+
+.big-screen-table {
+    display: block;
+}
+
 .expense-tracker {
     display: flex;
     gap: 32px;
@@ -33,7 +41,6 @@ main {
 
 .expense-table select {
     font: inherit;
-    width: 100%;
     border: none;
     outline: none;
     color: white;
@@ -68,24 +75,12 @@ svg {
     height: 20px;
 }
 
-.up-arrow {
-    margin-left: auto;
-}
-
 .up-arrow:active {
     transform: translateY(-2px);
 }
 
-.down-arrow {
-    margin-left: 6px;
-}
-
 .down-arrow:active {
     transform: translateY(2px);
-}
-
-.reset-arrow {
-    margin-left: 6px;
 }
 
 .reset-arrow:active {
@@ -95,16 +90,26 @@ svg {
 .expense-table th,
 .expense-table td {
     text-align: left;
-    padding: 4px 8px;
     border: 1px solid rgb(91, 89, 89);
     background-color: #333234;
 }
 
 .select-category {
     height: 28px;
-    padding: 1px 2px;
     font: inherit;
     color: white;
+    border: 1px solid rgb(91, 89, 89);
+    background-color: #333234;
+}
+
+.title-column-th {
+    padding: 0;
+}
+
+.expense-table th,
+.expense-table td {
+    text-align: left;
+    padding: 4px 8px;
     border: 1px solid rgb(91, 89, 89);
     background-color: #333234;
 }
@@ -147,7 +152,6 @@ svg {
     border-radius: 4px;
     overflow: hidden;
     border: 1px solid rgb(91, 89, 89);
-    /* display: none; */
     top: 0;
     left: 0;
 }
@@ -182,5 +186,15 @@ svg {
 
     .expense-tracker {
         flex-direction: column;
+    }
+}
+
+@media (max-width: 500px) {
+    .small-screen-table {
+        display: block;
+    }
+
+    .big-screen-table {
+        display: none;
     }
 }
